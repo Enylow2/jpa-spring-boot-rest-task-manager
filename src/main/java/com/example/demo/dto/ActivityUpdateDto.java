@@ -13,5 +13,6 @@ import java.util.Date;
 public class ActivityUpdateDto {
     private Long id;
     private String activity;
+    private String description;
     private float time;
 }

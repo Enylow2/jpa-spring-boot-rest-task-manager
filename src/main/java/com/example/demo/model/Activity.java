@@ -22,6 +22,9 @@ public class Activity {
     @Column(name = "activity")
     private String activity;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "time")
     private float time;
 

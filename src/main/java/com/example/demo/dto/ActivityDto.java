@@ -14,6 +14,7 @@ import java.util.Date;
 public class ActivityDto {
     private Long id;
     private String activity;
+    private String description;
     private float time;
     private Date addition_date = new Date();
     private Long taskId;

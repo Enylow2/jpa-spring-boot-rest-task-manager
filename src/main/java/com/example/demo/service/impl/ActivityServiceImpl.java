@@ -27,6 +27,7 @@ public class ActivityServiceImpl implements ActivityService {
     private TaskRepo taskRepo;
     @Override
     public ActivityDto createActivity(ActivityDto activity) {
+        System.out.println(activity.getTaskId());
         Task foundTask = taskRepo.findById(activity.getTaskId()).orElseThrow(
                 () -> new ResourceNotFoundException("Task with id: " + activity.getTaskId() + " doesn't exist")
         );
@@ -50,6 +51,7 @@ public class ActivityServiceImpl implements ActivityService {
         taskRepo.save(foundTask);
         foundActivity.setActivity(activity.getActivity());
         foundActivity.setTime(activity.getTime());
+        foundActivity.setDescription(activity.getDescription());
         activityRepo.save(foundActivity);
     }
 
