@@ -13,8 +13,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +31,7 @@ public class ActivityServiceImpl implements ActivityService {
     public ActivityDto createActivity(ActivityDto activity) {
         System.out.println(activity.getTaskId());
         Task foundTask = taskRepo.findById(activity.getTaskId()).orElseThrow(
-                () -> new ResourceNotFoundException("Task with id: " + activity.getTaskId() + " doesn't exist")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Task with id: " + activity.getTaskId() + " doesn't exist")
         );
         foundTask.setTime_spent(foundTask.getTime_spent()+activity.getTime());
         taskRepo.save(foundTask);
@@ -41,10 +43,10 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public void updateActivity(ActivityDto activity) {
         Task foundTask = taskRepo.findById(activity.getTaskId()).orElseThrow(
-                () -> new ResourceNotFoundException("Task with id: " + activity.getId() + " doesn't exist")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Task with id: " + activity.getId() + " doesn't exist")
         );
         Activity foundActivity = activityRepo.findById(activity.getId()).orElseThrow(
-                () -> new ResourceNotFoundException("Activity with id: " + activity.getId() + " doesn't exist")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Activity with id: " + activity.getId() + " doesn't exist")
         );
         foundTask.setTime_spent(foundTask.getTime_spent() - foundActivity.getTime());
         foundTask.setTime_spent(foundTask.getTime_spent() + activity.getTime());
@@ -59,10 +61,10 @@ public class ActivityServiceImpl implements ActivityService {
     public void deleteActivity(Long activityId) {
 
         Activity foundActivity = activityRepo.findById(activityId).orElseThrow(
-                () -> new ResourceNotFoundException("Activity with id: " + activityId + " doesn't exist")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Activity with id: " + activityId + " doesn't exist")
         );
         Task foundTask = taskRepo.findById(foundActivity.getTaskId()).orElseThrow(
-                () -> new ResourceNotFoundException("Task with id: " + foundActivity.getTaskId() + " doesn't exist")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Task with id: " + foundActivity.getTaskId() + " doesn't exist")
         );
         foundTask.setTime_spent(foundTask.getTime_spent() - foundActivity.getTime());
         taskRepo.save(foundTask);
@@ -72,7 +74,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<ActivityDto> getTasks(Long taskId) {
         taskRepo.findById(taskId).orElseThrow(
-                () -> new ResourceNotFoundException("Task with id: " + taskId + " doesn't exist")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Task with id: " + taskId + " doesn't exist")
         );
 
         List<Activity> activities = activityRepo.findByTaskId(taskId);

@@ -50,7 +50,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDto updateTask(Long taskId, TaskUpdateDto updatedTask) {
         Task task =  taskRepo.findById(taskId).orElseThrow(
-                () -> new ResourceNotFoundException("Task with id: " + taskId + " doesn't exist")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Task with id: " + taskId + " doesn't exist")
         );
         if(updatedTask.getProgress() <= 100 && updatedTask.getProgress() >= 0) {
             task.setTask_name(updatedTask.getTask_name());
@@ -72,7 +72,7 @@ public class TaskServiceImpl implements TaskService {
     public void deleteTask(Long taskId) {
         List<Activity> activity =  activityRepo.findByTaskId(taskId);
         Task task =  taskRepo.findById(taskId).orElseThrow(
-                () -> new ResourceNotFoundException("Task with id: " + taskId + " doesn't exist")
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Task with id: " + taskId + " doesn't exist")
         );
         List<Long> idsToDelete = activity.stream().map((el) -> el.getId()).toList();
         activityRepo.deleteByIdIn(idsToDelete);
@@ -82,7 +82,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void setTaskStatus(Long taskId, StatusDto taskStatus) {
         Task task =  taskRepo.findById(taskId).orElseThrow(
-                () -> new ResourceNotFoundException("Task with id: " + taskId + " doesn't exist")
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Task with id: " + taskId + " doesn't exist")
         );
         task.setStatus(taskStatus.getStatus());
         taskRepo.save(task);
