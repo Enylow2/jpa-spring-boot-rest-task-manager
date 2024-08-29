@@ -33,10 +33,10 @@ public class TaskController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<String> updateTask(@PathVariable("id") Long taskId, @RequestBody TaskUpdateDto updatedTask)
+    public ResponseEntity<TaskDto> updateTask(@PathVariable("id") Long taskId, @RequestBody TaskUpdateDto updatedTask)
     {
         TaskDto newTask = taskService.updateTask(taskId, updatedTask);
-        return new ResponseEntity<>("Task id: " + taskId + " updated successfully", HttpStatus.OK);
+        return new ResponseEntity<>(newTask, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")

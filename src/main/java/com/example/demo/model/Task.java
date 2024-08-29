@@ -23,6 +23,9 @@ public class Task {
     @Temporal(TemporalType.DATE)
     private Date created_at = new Date();
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "customer")
     private String customer;
 

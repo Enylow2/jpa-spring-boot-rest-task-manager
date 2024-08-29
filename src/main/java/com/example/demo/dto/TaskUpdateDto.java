@@ -14,6 +14,7 @@ public class TaskUpdateDto {
     private String task_name;
     private String customer;
     private String performer;
+    private String description;
     private Long progress;
 }
 

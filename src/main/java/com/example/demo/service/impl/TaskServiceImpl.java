@@ -49,6 +49,7 @@ public class TaskServiceImpl implements TaskService {
             task.setCustomer(updatedTask.getCustomer());
             task.setProgress(updatedTask.getProgress());
             task.setPerformer(updatedTask.getPerformer());
+            task.setDescription(updatedTask.getDescription());
         }
         else {
             return TaskMapper.mapToTaskDto(task);

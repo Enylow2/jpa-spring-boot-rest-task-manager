@@ -9,6 +9,7 @@ public class TaskMapper {
         return new TaskDto(
                 task.getId(),
                 task.getCreated_at(),
+                task.getDescription(),
                 task.getCustomer(),
                 task.getPerformer(),
                 task.getProgress(),
@@ -21,6 +22,7 @@ public class TaskMapper {
         return new Task(
                 task.getId(),
                 task.getCreated_at(),
+                task.getDescription(),
                 task.getCustomer(),
                 task.getPerformer(),
                 task.getProgress(),

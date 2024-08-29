@@ -15,6 +15,7 @@ import java.util.Date;
 public class TaskDto {
     private Long id;
     private Date created_at = new Date();
+    private String description;
     private String customer;
     private String performer;
     private Long progress = 0L;
