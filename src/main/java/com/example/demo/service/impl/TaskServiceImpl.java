@@ -13,7 +13,9 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,9 +29,15 @@ public class TaskServiceImpl implements TaskService {
     private ActivityRepo activityRepo;
     @Override
     public TaskDto createTask(TaskDto taskDto) {
-        Task task = TaskMapper.mapToTask(taskDto);
-        Task savedTask = taskRepo.save(task);
-        return TaskMapper.mapToTaskDto(savedTask);
+        System.out.println(taskRepo.findAll().size());
+        if(taskRepo.findAll().size() <= 25) {
+            Task task = TaskMapper.mapToTask(taskDto);
+            Task savedTask = taskRepo.save(task);
+            return TaskMapper.mapToTaskDto(savedTask);
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Task limit exceeded");
+        }
     }
 
     @Override
@@ -52,7 +60,7 @@ public class TaskServiceImpl implements TaskService {
             task.setDescription(updatedTask.getDescription());
         }
         else {
-            return TaskMapper.mapToTaskDto(task);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Parameter progress must be in 0 to 100 range");
         }
 
         Task updatedTaskObject =  taskRepo.save(task);

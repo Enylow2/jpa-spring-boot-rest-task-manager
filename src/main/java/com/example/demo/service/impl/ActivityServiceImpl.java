@@ -40,7 +40,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public void updateActivity(ActivityDto activity) {
         Task foundTask = taskRepo.findById(activity.getTaskId()).orElseThrow(
-                () -> new ResourceNotFoundException("Activity with id: " + activity.getId() + " doesn't exist")
+                () -> new ResourceNotFoundException("Task with id: " + activity.getId() + " doesn't exist")
         );
         Activity foundActivity = activityRepo.findById(activity.getId()).orElseThrow(
                 () -> new ResourceNotFoundException("Activity with id: " + activity.getId() + " doesn't exist")
